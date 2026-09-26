@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+.bg-optica-red {
+    background-color: #b91c1c;
+}
+
+.text-optica-red {
+    color: #b91c1c;
+}
+
+.border-optica-red {
+    border-color: #b91c1c;
+}
+
+.hover\:bg-optica-dark:hover {
+    background-color: #991b1b;
+}
