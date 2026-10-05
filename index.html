@@ -26,22 +26,30 @@
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-1 lg:space-x-4">
-                    <button onclick="switchPage('inicio')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-optica-red bg-red-50" data-target="inicio">Inicio</button>
+                    <button onclick="switchPage('inicio')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-slate-600 hover:text-optica-red hover:bg-red-50" data-target="inicio">Inicio</button>
                     <button onclick="switchPage('catalogo')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-slate-600 hover:text-optica-red hover:bg-red-50" data-target="catalogo">Catálogo y Lunas</button>
                     <button onclick="switchPage('ubicacion')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-slate-600 hover:text-optica-red hover:bg-red-50" data-target="ubicacion">Ubicación y Horarios</button>
                     <button onclick="switchPage('pedidos')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-slate-600 hover:text-optica-red hover:bg-red-50" data-target="pedidos">Pedidos y Recetas</button>
                     <button onclick="switchPage('qr')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition text-slate-600 hover:text-optica-red hover:bg-red-50" data-target="qr">Código QR</button>
                 </nav>
 
-                <!-- WhatsApp Direct Button -->
-                <div class="hidden sm:block">
-                    <a href="https://wa.me/51927725412?text=Hola,%20deseo%20más%20información%20en%20Óptica%20Mi%20Visión" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-sm transition flex items-center space-x-2">
-                        <span>WhatsApp</span>
+                <!-- Right Action Buttons (WhatsApp + Carrito) -->
+                <div class="flex items-center space-x-3">
+                    <!-- Botón de WhatsApp Ultra Resaltado -->
+                    <a href="https://wa.me/51927725412?text=Hola,%20deseo%20más%20información%20en%20Óptica%20Mi%20Visión" target="_blank" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg transition flex items-center space-x-2 animate-bounce border-2 border-green-300">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <span class="hidden sm:inline">¡Escríbenos!</span>
                     </a>
+
+                    <!-- Botón Carrito de Compras -->
+                    <button onclick="toggleCartModal()" class="relative bg-red-50 hover:bg-red-100 text-optica-red px-3.5 py-2.5 rounded-xl text-sm font-bold transition flex items-center space-x-2 border border-red-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        <span id="cart-counter" class="absolute -top-2 -right-2 bg-optica-red text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow">0</span>
+                    </button>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 ml-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
                 </button>
             </div>
@@ -49,7 +57,7 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
-            <button onclick="switchPage('inicio'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-optica-red bg-red-50">Inicio</button>
+            <button onclick="switchPage('inicio'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-600 hover:bg-slate-50">Inicio</button>
             <button onclick="switchPage('catalogo'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-600 hover:bg-slate-50">Catálogo y Lunas</button>
             <button onclick="switchPage('ubicacion'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-600 hover:bg-slate-50">Ubicación y Horarios</button>
             <button onclick="switchPage('pedidos'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-md font-medium text-slate-600 hover:bg-slate-50">Pedidos y Recetas</button>
@@ -61,17 +69,17 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         <!-- ================= INICIO ================= -->
-        <div id="page-inicio" class="page-section space-y-12">
+        <div id="page-inicio" class="page-section hidden space-y-12">
             <div class="bg-gradient-to-r from-red-900 to-red-700 rounded-3xl text-white p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
                 <div class="md:w-1/2 space-y-6 z-10">
                     <div class="inline-flex items-center space-x-2 bg-red-800/80 px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase border border-red-600">
                         <span>Salud Visual Profesional</span>
                     </div>
                     <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">ÓPTICA MI VISIÓN</h1>
-                    <p class="text-red-100 text-lg leading-relaxed">Venta de monturas, lunas de alta tecnología, toma de medida exacta y atención personalizada.</p>
+                    <p class="text-red-100 text-lg leading-relaxed">Venta de monturas, lunas de alta tecnología, toma de medida exacta y atención personalizada con precios accesibles.</p>
                     <div class="flex flex-wrap gap-4 pt-2">
                         <button onclick="switchPage('pedidos')" class="bg-white text-optica-red font-semibold px-6 py-3 rounded-xl shadow hover:bg-red-50 transition">Enviar Receta o Pedido</button>
-                        <button onclick="switchPage('catalogo')" class="bg-red-800 text-white border border-red-600 font-semibold px-6 py-3 rounded-xl hover:bg-red-900 transition">Ver Catálogo</button>
+                        <button onclick="switchPage('catalogo')" class="bg-red-800 text-white border border-red-600 font-semibold px-6 py-3 rounded-xl hover:bg-red-900 transition">Ver Catálogo y Precios</button>
                     </div>
                 </div>
                 <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center z-10">
@@ -83,6 +91,7 @@
                 </div>
             </div>
 
+            <!-- Servicios Destacados -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
                     <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-optica-red font-bold text-xl">👁️</div>
@@ -100,13 +109,85 @@
                     <p class="text-slate-600 text-sm">Reparación de todo tipo de monturas, repuestos y accesorios completos.</p>
                 </div>
             </div>
+
+            <!-- NUEVA SECCIÓN SUTIL: Problemática, Solución y Por qué usar lentes -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-8 sm:p-10 space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="bg-red-100 text-optica-red text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Cuidado Visual Inteligente</span>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900">¿Por qué proteger tu vista hoy?</h3>
+                    <p class="text-slate-600 text-sm">Entendemos los desafíos visuales de la vida moderna y te ofrecemos soluciones a la medida.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Problemática -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                        <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-bold">⚠️</div>
+                        <h4 class="font-bold text-slate-900 text-base">La Problemática Actual</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            El uso prolongado de pantallas digitales (celulares y computadoras), la exposición al sol y el esfuerzo visual diario generan fatiga ocular, dolores de cabeza y deterioro progresivo de la visión.
+                        </p>
+                    </div>
+
+                    <!-- Solución -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                        <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center font-bold">💡</div>
+                        <h4 class="font-bold text-slate-900 text-base">Nuestra Solución</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Proporcionamos diagnósticos precisos, lunas con filtros especializados (Blue Defense, antirreflekt y fotomatic) y monturas ergonómicas que reducen drásticamente el cansancio visual.
+                        </p>
+                    </div>
+
+                    <!-- Por qué usar lentes / Beneficio Clave -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                        <div class="w-10 h-10 bg-red-100 text-optica-red rounded-xl flex items-center justify-center font-bold">✨</div>
+                        <h4 class="font-bold text-slate-900 text-base">¿Por qué usar lentes?</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            No solo mejoran tu nitidez al instante; previenen el avance de problemas refractivos, protegen tus ojos de daños UV y optimizan tu rendimiento en el estudio, trabajo y día a día.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Público Objetivo Integrado Sutilmente -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="space-y-1 text-center sm:text-left">
+                        <h5 class="font-bold text-slate-900">Diseñado para toda la familia</h5>
+                        <p class="text-slate-600 text-xs sm:text-sm">Atención especializada para niños, jóvenes estudiantes, profesionales frente a pantallas y adultos mayores.</p>
+                    </div>
+                    <button onclick="switchPage('catalogo')" class="bg-optica-red hover:bg-optica-dark text-white font-semibold px-5 py-2.5 rounded-xl transition text-xs whitespace-nowrap shadow">Conoce las opciones</button>
+                </div>
+            </div>
+
+            <!-- MISIÓN Y VISIÓN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-full -mr-10 -mt-10 pointer-events-none"></div>
+                    <div class="inline-flex items-center space-x-2 bg-red-100 text-optica-red px-3.5 py-1 rounded-full text-xs font-bold uppercase">
+                        <span>Compromiso</span>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900">Nuestra Misión</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Brindar soluciones ópticas de alta calidad y accesibles para toda la familia, ofreciendo una atención visual personalizada, tecnología de precisión en medida de lunas y monturas vanguardistas que mejoren la calidad de vida y salud visual de nuestros clientes.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-full -mr-10 -mt-10 pointer-events-none"></div>
+                    <div class="inline-flex items-center space-x-2 bg-red-100 text-optica-red px-3.5 py-1 rounded-full text-xs font-bold uppercase">
+                        <span>Futuro</span>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900">Nuestra Visión</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Ser reconocidos como la óptica líder en innovación, confianza y servicio al cliente de la región, destacando por la excelencia en diagnósticos visuales y la amplia gama de productos ópticos adaptados a las necesidades modernas.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- ================= CATALOGO Y LUNAS ================= -->
         <div id="page-catalogo" class="page-section hidden space-y-8">
             <div class="text-center space-y-2">
                 <h2 class="text-3xl font-extrabold text-slate-900">Catálogo y Tecnología en Lunas</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Conoce nuestras monturas de tendencia y tratamientos avanzados para tus lunas.</p>
+                <p class="text-slate-600 max-w-2xl mx-auto">Conoce nuestras monturas de tendencia, tratamientos avanzados y precios exactos para cotizar al instante.</p>
             </div>
 
             <div class="flex justify-center space-x-2 border-b border-slate-200 pb-4">
@@ -114,61 +195,129 @@
                 <button onclick="switchCatTab('lunas')" id="btn-tab-lunas" class="px-5 py-2 rounded-xl font-semibold text-sm transition bg-slate-200 text-slate-700 hover:bg-slate-300">Lunas y Tratamientos</button>
             </div>
 
+            <!-- TAB MONTURAS -->
             <div id="tab-content-monturas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
                     <div>
-                        <div class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Tendencia</div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Tendencia</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 120.00</span>
+                        </div>
                         <h3 class="text-lg font-bold text-slate-900">Monturas de Acetato</h3>
-                        <p class="text-slate-600 text-sm mt-1">Modelos modernos para damas y caballeros en gran variedad de colores.</p>
+                        <p class="text-slate-600 text-sm mt-1">Modelos modernos para damas y caballeros en gran variedad de colores y resistencia.</p>
                     </div>
-                    <button onclick="selectProductForOrder('Monturas de Acetato')" class="w-full bg-red-50 text-optica-red hover:bg-optica-red hover:text-white font-semibold py-2 rounded-xl transition text-sm">Pedir o Cotizar</button>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Monturas de Acetato', 120)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Monturas de Acetato')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
                     <div>
-                        <div class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Infantil</div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Infantil</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 95.00</span>
+                        </div>
                         <h3 class="text-lg font-bold text-slate-900">Monturas para Niños</h3>
-                        <p class="text-slate-600 text-sm mt-1">Diseños seguros, flexibles y cómodos para los más pequeños del hogar.</p>
+                        <p class="text-slate-600 text-sm mt-1">Diseños seguros, flexibles, atóxicos y cómodos para los más pequeños del hogar.</p>
                     </div>
-                    <button onclick="selectProductForOrder('Monturas para Niños')" class="w-full bg-red-50 text-optica-red hover:bg-optica-red hover:text-white font-semibold py-2 rounded-xl transition text-sm">Pedir o Cotizar</button>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Monturas para Niños', 95)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Monturas para Niños')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
                     <div>
-                        <div class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Solar</div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Solar</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 150.00</span>
+                        </div>
                         <h3 class="text-lg font-bold text-slate-900">Lentes de Sol</h3>
-                        <p class="text-slate-600 text-sm mt-1">Todos los modelos en lentes de sol con opción de medida graduada.</p>
+                        <p class="text-slate-600 text-sm mt-1">Todos los modelos en lentes de sol con protección UV400 y opción de medida graduada.</p>
                     </div>
-                    <button onclick="selectProductForOrder('Lentes de Sol')" class="w-full bg-red-50 text-optica-red hover:bg-optica-red hover:text-white font-semibold py-2 rounded-xl transition text-sm">Pedir o Cotizar</button>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Lentes de Sol', 150)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Lentes de Sol con Medida')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
                     <div>
-                        <div class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Contacto</div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Contacto</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 65.00</span>
+                        </div>
                         <h3 class="text-lg font-bold text-slate-900">Lentes de Contacto</h3>
-                        <p class="text-slate-600 text-sm mt-1">Lentes de contacto de colores estéticos y con medida graduada.</p>
+                        <p class="text-slate-600 text-sm mt-1">Lentes de contacto de colores estéticos y con medida graduada mensual o diaria.</p>
                     </div>
-                    <button onclick="selectProductForOrder('Lentes de Contacto')" class="w-full bg-red-50 text-optica-red hover:bg-optica-red hover:text-white font-semibold py-2 rounded-xl transition text-sm">Pedir o Cotizar</button>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Lentes de Contacto', 65)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Lentes de Contacto')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
                     <div>
-                        <div class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Servicio</div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Servicio</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 35.00</span>
+                        </div>
                         <h3 class="text-lg font-bold text-slate-900">Reparación y Accesorios</h3>
-                        <p class="text-slate-600 text-sm mt-1">Reparación completa de monturas, venta de repuestos y accesorios.</p>
+                        <p class="text-slate-600 text-sm mt-1">Reparación completa de monturas, soldadura láser, venta de estuches y líquidos limpiadores.</p>
                     </div>
-                    <button onclick="selectProductForOrder('Reparación o Accesorios')" class="w-full bg-red-50 text-optica-red hover:bg-optica-red hover:text-white font-semibold py-2 rounded-xl transition text-sm">Pedir o Cotizar</button>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Reparación y Accesorios', 35)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Reparación de Montura')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
             </div>
 
+            <!-- TAB LUNAS -->
             <div id="tab-content-lunas" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4">
-                    <h3 class="text-lg font-bold text-slate-900">Fotomatic</h3>
-                    <p class="text-slate-600 text-sm">Resinas que se oscurecen al sol con protección UV 400 y se aclaran en interiores.</p>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Tratamiento</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 90.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Fotomatic</h3>
+                        <p class="text-slate-600 text-sm mt-1">Resinas que se oscurecen automáticamente al sol con protección UV 400 y se aclaran en interiores.</p>
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Lunas Fotomatic', 90)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Lunas Fotomatic / Blue Defense')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4">
-                    <h3 class="text-lg font-bold text-slate-900">Blue Defense (Luz Azul)</h3>
-                    <p class="text-slate-600 text-sm">Filtros especializados para proteger tus ojos frente a pantallas de computadoras y celulares.</p>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Protección</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 110.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Blue Defense (Luz Azul)</h3>
+                        <p class="text-slate-600 text-sm mt-1">Filtros especializados para proteger tus ojos frente a la fatiga por pantallas de computadoras y celulares.</p>
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Lunas Blue Defense', 110)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Lunas Fotomatic / Blue Defense')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4">
-                    <h3 class="text-lg font-bold text-slate-900">Policarbonato</h3>
-                    <p class="text-slate-600 text-sm">Material de alta resistencia y delgadez ideal para medidas altas.</p>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-red-50 text-optica-red text-xs font-bold px-3 py-1 rounded-full">Alta Resistencia</span>
+                            <span class="text-lg font-extrabold text-slate-900">S/. 130.00</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">Policarbonato</h3>
+                        <p class="text-slate-600 text-sm mt-1">Material de alta resistencia a impactos y mayor delgadez, ideal para monturas al aire y medidas altas.</p>
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <button onclick="addToCart('Lunas Policarbonato', 130)" class="w-full bg-optica-red hover:bg-optica-dark text-white font-semibold py-2.5 rounded-xl transition text-sm shadow">Agregar al Carrito</button>
+                        <button onclick="selectProductForOrder('Lunas Fotomatic / Blue Defense')" class="w-full bg-red-50 text-optica-red hover:bg-red-100 font-semibold py-2 rounded-xl transition text-sm">Cotizar con Receta</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,11 +326,10 @@
         <div id="page-ubicacion" class="page-section hidden space-y-8">
             <div class="text-center space-y-2">
                 <h2 class="text-3xl font-extrabold text-slate-900">Ubicación y Horarios</h2>
-                <p class="text-slate-600">Visítanos para recibir una atención personalizada.</p>
+                <p class="text-slate-600">Visítanos para recibir una atención visual personalizada.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Información y dirección -->
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
                     <div class="flex items-center space-x-4">
                         <div class="bg-red-100 p-3 rounded-2xl text-optica-red font-bold">📍</div>
@@ -202,12 +350,11 @@
                         <div class="bg-green-100 p-3 rounded-2xl text-green-700 font-bold">📞</div>
                         <div>
                             <h4 class="font-bold text-slate-900">Teléfono / WhatsApp</h4>
-                            <p class="text-slate-600 text-sm">+51 999 999 999</p>
+                            <p class="text-slate-600 text-sm">+51 927 725 412</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- MAPA INTERACTIVO DE ÓPTICA MI VISIÓN -->
                 <div class="bg-white rounded-3xl p-3 shadow-sm border border-slate-100 overflow-hidden h-80 flex flex-col">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d380.123456789!2d-77.0422366!3d-11.9247273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105d0466301fa6d%3A0x7e5ae341c2320fd8!2zw5NwdGljYSBNaSBWaXNpb24!5e0!3m2!1ses!2spe!4v1620000000000!5m2!1ses!2spe" 
@@ -225,7 +372,7 @@
         <div id="page-pedidos" class="page-section hidden space-y-8">
             <div class="text-center space-y-2">
                 <h2 class="text-3xl font-extrabold text-slate-900">Envía tu Receta o Pedido</h2>
-                <p class="text-slate-600 max-w-xl mx-auto">Ingresa tus datos o adjunta la foto de tu receta para procesar tu pedido por WhatsApp.</p>
+                <p class="text-slate-600 max-w-xl mx-auto">Ingresa tus datos o adjunta la foto de tu receta para procesar tu pedido directamente por WhatsApp.</p>
             </div>
 
             <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-sm border border-slate-100 max-w-2xl mx-auto space-y-6">
@@ -238,16 +385,16 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">Teléfono de Contacto</label>
-                            <input type="tel" id="form-phone" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-optica-red text-sm" placeholder="Ej. 999999999">
+                            <input type="tel" id="form-phone" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-optica-red text-sm" placeholder="Ej. 927725412">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-1">Producto o Servicio</label>
                             <select id="form-product" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-optica-red text-sm bg-white">
-                                <option value="Montura de Acetato / Tendencia">Montura de Acetato / Tendencia</option>
-                                <option value="Montura para Niños">Montura para Niños</option>
-                                <option value="Lentes de Sol con Medida">Lentes de Sol con Medida</option>
-                                <option value="Lentes de Contacto">Lentes de Contacto</option>
-                                <option value="Reparación de Montura">Reparación de Montura</option>
+                                <option value="Montura de Acetato / Tendencia (S/. 120)">Montura de Acetato / Tendencia (S/. 120)</option>
+                                <option value="Montura para Niños (S/. 95)">Montura para Niños (S/. 95)</option>
+                                <option value="Lentes de Sol con Medida (S/. 150)">Lentes de Sol con Medida (S/. 150)</option>
+                                <option value="Lentes de Contacto (S/. 65)">Lentes de Contacto (S/. 65)</option>
+                                <option value="Reparación de Montura (S/. 35)">Reparación de Montura (S/. 35)</option>
                                 <option value="Lunas Fotomatic / Blue Defense">Lunas Fotomatic / Blue Defense</option>
                             </select>
                         </div>
@@ -288,11 +435,47 @@
 
     </main>
 
+    <!-- MODAL DEL CARRITO DE COMPRAS -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6 transform transition-all">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-red-100 p-2 rounded-xl text-optica-red font-bold">🛒</div>
+                    <h3 class="text-xl font-extrabold text-slate-900">Tu Carrito y Cotización</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="text-slate-400 hover:text-slate-700 font-bold text-xl p-1">&times;</button>
+            </div>
+
+            <div id="cart-items-container" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <div class="border-t border-slate-100 pt-4 space-y-4">
+                <div class="flex justify-between items-center text-lg font-extrabold text-slate-900">
+                    <span>Total Estimado:</span>
+                    <span id="cart-total" class="text-optica-red">S/. 0.00</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="toggleCartModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition text-sm">Seguir Viendo</button>
+                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm shadow flex items-center justify-center space-x-2">
+                        <span>Cotizar por WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN WHATSAPP FLOTANTE FIJO Y RESALTADO -->
+    <a href="https://wa.me/51927725412?text=Hola,%20deseo%20realizar%20una%20consulta%20en%20Óptica%20Mi%20Visión" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl transition transform hover:scale-110 flex items-center justify-center animate-bounce border-2 border-white">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-white mt-16 py-10 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div class="flex items-center space-x-3">
-                <img src="img/95fe76db-0c8b-482f-b23b-09d83183b17b.png" alt="Logo" class="w-10 h-10 object-contain filter brightness-200">
+                <img src="img/ss.png" alt="Logo" class="w-10 h-10 object-contain filter brightness-200">
                 <div>
                     <span class="font-bold tracking-wider">ÓPTICA MI VISIÓN</span>
                     <p class="text-xs text-slate-400">Salud visual, monturas y medida exacta.</p>
