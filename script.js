@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Navegación Multi-Página
 function switchPage(pageId) {
+    if (pageId === 'pedidos' && !getSession()) { openAuth('login', () => switchPage('pedidos')); return; }
     // Ocultar todas las secciones
     const sections = document.querySelectorAll('.page-section');
     sections.forEach(sec => {
@@ -84,7 +85,7 @@ function addToCart(productName, price) {
         cart.push({ name: productName, price: price, quantity: 1 });
     }
     updateCartUI();
-    alert(`¡"${productName}" agregado al carrito con éxito!`);
+    showToast(`"${productName}" agregado al carrito`);
 }
 
 function removeFromCart(index) {
@@ -141,11 +142,13 @@ function toggleCartModal() {
 
 function checkoutWhatsApp() {
     if (cart.length === 0) {
-        alert("Tu carrito está vacío.");
+        showToast("Tu carrito está vacío.");
         return;
     }
 
-    let message = `*Cotización de Carrito - Óptica Mi Visión*%0A%0A`;
+    const ses = getSession();
+    if (!ses) { openAuth('login', checkoutWhatsApp); return; }
+    let message = `*Cotización de Carrito - Óptica Mi Visión*%0A%0A*Cliente:* ${encodeURIComponent(ses.name)} (${encodeURIComponent(ses.phone)})%0A%0A`;
     let total = 0;
 
     cart.forEach(item => {
@@ -177,6 +180,7 @@ function selectProductForOrder(productName) {
 // Envío de datos y recetas directamente a WhatsApp
 function sendToWhatsApp(e) {
     e.preventDefault();
+    if (!getSession()) { openAuth('login'); return; }
     const name = document.getElementById('form-name').value;
     const phone = document.getElementById('form-phone').value;
     const product = document.getElementById('form-product').value;
@@ -186,6 +190,7 @@ function sendToWhatsApp(e) {
     let message = `*Nuevo Pedido / Receta - Óptica Mi Visión*%0A%0A`;
     message += `*Cliente:* ${encodeURIComponent(name)}%0A`;
     message += `*Teléfono:* ${encodeURIComponent(phone)}%0A`;
+    message += `*Cuenta verificada:* ${encodeURIComponent(getSession().email)}%0A`;
     message += `*Producto/Servicio:* ${encodeURIComponent(product)}%0A`;
     if (details) {
         message += `*Detalles:* ${encodeURIComponent(details)}%0A`;
@@ -198,3 +203,181 @@ function sendToWhatsApp(e) {
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
     window.open(whatsappURL, '_blank');
 }
+
+/* ================= CUENTAS Y SESIÓN ================= */
+const USERS_KEY = 'ov_users', SESSION_KEY = 'ov_session', LOCK_KEY = 'ov_lock';
+let pendingAfterAuth = null, authMode = 'login', toastTimer;
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const readJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const getUsers = () => readJSON(USERS_KEY, {});
+
+function getSession() {
+    const s = readJSON(SESSION_KEY, null);
+    if (!s || s.exp < Date.now()) { localStorage.removeItem(SESSION_KEY); return null; }
+    return s;
+}
+
+function randSalt() {
+    const a = new Uint8Array(16);
+    (window.crypto || {}).getRandomValues ? crypto.getRandomValues(a) : a.forEach((_, i) => a[i] = Math.random() * 256);
+    return Array.from(a).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function hashPassword(pw, salt) {
+    if (!(window.crypto && crypto.subtle)) return btoa(unescape(encodeURIComponent(salt + pw)));
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: enc.encode(salt), iterations: 150000 }, key, 256);
+    return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function pwStrength(p) {
+    let s = 0;
+    if (p.length >= 8) s++;
+    if (/[a-z]/.test(p) && /[A-Z]/.test(p)) s++;
+    if (/\d/.test(p)) s++;
+    if (/[^A-Za-z0-9]/.test(p)) s++;
+    return s;
+}
+
+function updateMeter(v) {
+    const s = pwStrength(v), bar = document.getElementById('pw-bar');
+    bar.style.width = v ? Math.max(s, 1) * 25 + '%' : '0';
+    bar.style.background = ['#ef4444', '#ef4444', '#f59e0b', '#84cc16', '#16a34a'][s];
+    document.getElementById('pw-label').textContent = v ? ['Muy débil', 'Débil', 'Regular', 'Buena', 'Excelente'][s] : 'Usa 8 o más caracteres con letras y números.';
+}
+
+function togglePass() {
+    const i = document.getElementById('auth-pass'), show = i.type === 'password';
+    i.type = show ? 'text' : 'password';
+    document.getElementById('pass-toggle').textContent = show ? 'Ocultar' : 'Mostrar';
+}
+
+function authError(msg) {
+    const el = document.getElementById('auth-error');
+    el.textContent = msg;
+    el.classList.toggle('hidden', !msg);
+    return false;
+}
+
+function setAuthMode(m) {
+    authMode = m;
+    const reg = m === 'register';
+    document.getElementById('reg-fields').classList.toggle('hidden', !reg);
+    document.getElementById('pw-meter').classList.toggle('hidden', !reg);
+    document.getElementById('auth-title').textContent = reg ? 'Crea tu cuenta' : 'Ingresa a tu cuenta';
+    document.getElementById('auth-sub').textContent = reg ? 'Con tu cuenta enviarás pedidos y recetas de forma segura.' : 'Para enviar pedidos y recetas necesitamos verificar tu identidad.';
+    document.getElementById('auth-submit').textContent = reg ? 'Crear cuenta y continuar' : 'Ingresar';
+    document.getElementById('auth-pass').autocomplete = reg ? 'new-password' : 'current-password';
+    ['login', 'register'].forEach(t => document.getElementById('tab-' + t).classList.toggle('is-active', t === m));
+    updateMeter(document.getElementById('auth-pass').value);
+    authError('');
+}
+
+function openAuth(mode = 'login', after = null) {
+    pendingAfterAuth = after;
+    setAuthMode(mode);
+    document.getElementById('auth-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById(mode === 'register' ? 'auth-name' : 'auth-email').focus(), 50);
+}
+
+function closeAuth() {
+    pendingAfterAuth = null;
+    document.getElementById('auth-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+    document.getElementById('auth-form').reset();
+}
+
+async function handleAuth(e) {
+    e.preventDefault();
+    const val = id => document.getElementById(id).value.trim();
+    const email = val('auth-email').toLowerCase(), pw = document.getElementById('auth-pass').value;
+    if (!/^\S+@\S+\.\S+$/.test(email)) return authError('Ingresa un correo válido.');
+    const users = getUsers();
+
+    if (authMode === 'register') {
+        const name = val('auth-name'), phone = val('auth-phone').replace(/\s/g, '');
+        if (name.length < 3) return authError('Escribe tu nombre completo.');
+        if (!/^\d{9}$/.test(phone)) return authError('El teléfono debe tener 9 dígitos.');
+        if (!(pw.length >= 8 && /\d/.test(pw) && /[A-Za-z]/.test(pw))) return authError('La contraseña necesita 8 o más caracteres, con letras y números.');
+        if (users[email]) return authError('Este correo ya tiene una cuenta. Ingresa con tu contraseña.');
+        const salt = randSalt();
+        users[email] = { name, phone, salt, hash: await hashPassword(pw, salt) };
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        return startSession(email, users[email]);
+    }
+
+    const lock = readJSON(LOCK_KEY, { n: 0, until: 0 });
+    if (lock.until > Date.now()) return authError(`Demasiados intentos. Espera ${Math.ceil((lock.until - Date.now()) / 1000)} segundos.`);
+    const u = users[email];
+    if (!u || await hashPassword(pw, u.salt) !== u.hash) {
+        lock.n++;
+        if (lock.n >= 5) { lock.until = Date.now() + 60000; lock.n = 0; }
+        localStorage.setItem(LOCK_KEY, JSON.stringify(lock));
+        return authError('Correo o contraseña incorrectos.');
+    }
+    localStorage.removeItem(LOCK_KEY);
+    startSession(email, u);
+}
+
+function startSession(email, u) {
+    const next = pendingAfterAuth;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ email, name: u.name, phone: u.phone, exp: Date.now() + 4 * 3600 * 1000 }));
+    closeAuth();
+    renderAuthUI();
+    showToast(`Hola, ${u.name.split(' ')[0]}. Sesión iniciada.`);
+    if (next) next();
+}
+
+function logout() {
+    localStorage.removeItem(SESSION_KEY);
+    renderAuthUI();
+    switchPage('inicio');
+    showToast('Sesión cerrada.');
+}
+
+function toggleUserMenu() {
+    const m = document.getElementById('user-menu');
+    if (m) m.classList.toggle('hidden');
+}
+
+function fillOrderForm() {
+    const s = getSession(), n = document.getElementById('form-name'), p = document.getElementById('form-phone'), note = document.getElementById('order-session-note');
+    if (s && n && p) { n.value = s.name; p.value = s.phone; }
+    if (note) {
+        note.classList.toggle('hidden', !s);
+        if (s) note.textContent = `Pedido a nombre de ${s.name} · cuenta verificada (${s.email})`;
+    }
+}
+
+function renderAuthUI() {
+    const s = getSession(), area = document.getElementById('auth-area'), mob = document.getElementById('mobile-auth');
+    document.body.classList.toggle('is-auth', !!s);
+    const first = s ? s.name.split(' ')[0] : '';
+    if (area) area.innerHTML = s
+        ? `<button onclick="toggleUserMenu()" class="user-chip" aria-label="Mi cuenta"><span class="user-avatar">${esc(s.name[0].toUpperCase())}</span><span class="hidden lg:inline text-sm font-semibold text-slate-700">${esc(first)}</span></button>
+           <div id="user-menu" class="hidden user-menu"><p class="text-sm font-bold text-slate-900 truncate">${esc(s.name)}</p><p class="text-xs text-slate-500 truncate mb-3">${esc(s.email)}</p><button onclick="logout()" class="w-full text-left text-sm font-semibold text-optica-red hover:bg-red-50 rounded-lg px-3 py-2">Cerrar sesión</button></div>`
+        : `<button onclick="openAuth('login')" class="btn-ghost">Ingresar</button>`;
+    if (mob) mob.innerHTML = s
+        ? `<button onclick="logout();toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-semibold text-optica-red hover:bg-red-50">Cerrar sesión (${esc(first)})</button>`
+        : `<button onclick="openAuth('login');toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md font-semibold text-optica-red hover:bg-red-50">Ingresar / Crear cuenta</button>`;
+    fillOrderForm();
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+document.addEventListener('DOMContentLoaded', renderAuthUI);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+document.addEventListener('click', e => {
+    const m = document.getElementById('user-menu');
+    if (m && !m.classList.contains('hidden') && !e.target.closest('#auth-area')) m.classList.add('hidden');
+});
